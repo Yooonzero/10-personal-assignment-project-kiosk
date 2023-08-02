@@ -9,6 +9,18 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            this.hasMany(models.Order_items, {
+                sourceKey: 'item_id',
+                foreignKey: 'item_id',
+            });
+            this.hasMany(models.Item_order_customers, {
+                sourceKey: 'item_id',
+                foreignKey: 'item_id',
+            });
+            this.belongsTo(models.Option, {
+                targetKey: 'option_id',
+                foreignKey: 'option_id',
+            });
         }
     }
     Item.init(
@@ -26,11 +38,11 @@ module.exports = (sequelize, DataTypes) => {
             },
             option_id: {
                 allowNull: false,
-                type: DataTypes.NUMBER,
+                type: DataTypes.INTEGER,
             },
             price: {
                 allowNull: false,
-                type: DataTypes.STRING,
+                type: DataTypes.INTEGER,
             },
             type: {
                 allowNull: false,
@@ -38,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             amount: {
                 allowNull: false,
-                type: DataTypes.STRING,
+                type: DataTypes.INTEGER,
             },
             createdAt: {
                 allowNull: false,
