@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Items', {
+        await queryInterface.createTable('Item', {
             item_id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -16,19 +16,24 @@ module.exports = {
             },
             option_id: {
                 allowNull: false,
-                type: Sequelize.NUMBER,
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'Option',
+                    key: 'option_id',
+                },
+                onDelete: 'CASCADE',
             },
             price: {
                 allowNull: false,
-                type: Sequelize.STRING,
+                type: Sequelize.INTEGER,
             },
             type: {
                 allowNull: false,
-                type: Sequelize.ENUM,
+                type: Sequelize.ENUM('coffee', 'juice', 'food'),
             },
             amount: {
                 allowNull: false,
-                type: Sequelize.STRING,
+                type: Sequelize.INTEGER,
             },
             createdAt: {
                 allowNull: false,
@@ -41,6 +46,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Items');
+        await queryInterface.dropTable('Item');
     },
 };
