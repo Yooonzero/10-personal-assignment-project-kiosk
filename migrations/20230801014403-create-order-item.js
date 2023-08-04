@@ -2,7 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Order_item', {
+        const orderItemState = {
+            ORDERED: 'ORDERED',
+            PENDING: 'PENDING',
+            COMPLETED: 'COMPLETED',
+            CANCELED: 'CANCELED',
+        };
+
+        await queryInterface.createTable('Order_items', {
             order_item_id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -13,7 +20,7 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.INTEGER,
                 references: {
-                    model: 'Item',
+                    model: 'Items',
                     key: 'item_id',
                 },
                 onDelete: 'CASCADE',
@@ -24,7 +31,8 @@ module.exports = {
             },
             state: {
                 allowNull: false,
-                type: Sequelize.INTEGER,
+                type: Sequelize.ENUM(Object.values(orderItemState)),
+                defaultValue: orderItemState.ORDERED,
             },
             createdAt: {
                 allowNull: false,
@@ -37,6 +45,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Order_item');
+        await queryInterface.dropTable('Order_items');
     },
 };
