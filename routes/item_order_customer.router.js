@@ -19,8 +19,8 @@ router.post('/order_customers', async (req, res) => {
             price,
         });
         return res.status(200).json({ message: '상품을 주문하였습니다.', 주문번호: orderCustomer.order_customer_id });
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        console.error(err);
         return res.status(500).json({ message: '주문 생성에 실패하였습니다.' });
     }
 });
@@ -67,9 +67,9 @@ router.put('/order_customers/:order_customer_id', async (req, res) => {
         }
         await transaction.commit();
         return res.status(200).json({ message: '주문이 완료되었습니다.' });
-    } catch (error) {
+    } catch (err) {
         await transaction.rollback();
-        console.error(error);
+        console.error(err);
         return res.status(500).json({ message: '주문 수정에 실패하였습니다.' });
     }
 });
@@ -90,9 +90,9 @@ router.delete('/order_customers/:order_customer_id', async (req, res) => {
         }
         await transaction.commit();
         return res.status(200).json({ message: '주문이 취소되었습니다.' });
-    } catch (error) {
+    } catch (err) {
         await transaction.rollback();
-        console.error(error);
+        console.error(err);
         return res.status(500).json({ message: '주문 취소에 실패하였습니다.' });
     }
 });
